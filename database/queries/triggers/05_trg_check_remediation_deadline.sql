@@ -3,7 +3,6 @@ RETURNS TRIGGER AS $$
 BEGIN
     IF NEW.status = 'Готово' AND OLD.status != 'Готово' THEN
         IF CURRENT_DATE > NEW.deadline THEN
-            -- В ER-диаграмме action_type имеет список значений (CREATE, UPDATE, DELETE). Пишем 'UPDATE'
             INSERT INTO public.audit_log (user_id, action_type, table_name, "timestamp")
             VALUES (NEW.assignee_id, 'UPDATE', 'remediation_task', CURRENT_TIMESTAMP);
             
